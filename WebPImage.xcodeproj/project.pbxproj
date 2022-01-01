@@ -14,10 +14,10 @@
 		2292A524277AE60700F192D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2292A523277AE60700F192D1 /* main.m */; };
 		2292A52E277AE60700F192D1 /* WebPImageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2292A52D277AE60700F192D1 /* WebPImageTests.m */; };
 		2292A548277C3DDA00F192D1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2292A547277C3DDA00F192D1 /* ViewController.m */; };
-		2292A55027802DAE00F192D1 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 2292A54E27802DAE00F192D1 /* image.png */; };
-		2292A55127802DAE00F192D1 /* image.webp in Resources */ = {isa = PBXBuildFile; fileRef = 2292A54F27802DAE00F192D1 /* image.webp */; };
 		2292A55527802DD800F192D1 /* WebPImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2292A55427802DD800F192D1 /* WebPImage.m */; };
-		2292A55C2780ACE800F192D1 /* WebP.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2292A55B2780ACE800F192D1 /* WebP.xcframework */; };
+		2292A5622780B42200F192D1 /* image.webp in Resources */ = {isa = PBXBuildFile; fileRef = 2292A5602780B42200F192D1 /* image.webp */; };
+		2292A5632780B42200F192D1 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 2292A5612780B42200F192D1 /* image.png */; };
+		2292A5652780B4FE00F192D1 /* WebP.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2292A5642780B4FE00F192D1 /* WebP.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,11 +57,11 @@
 		2292A52D277AE60700F192D1 /* WebPImageTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebPImageTests.m; sourceTree = "<group>"; };
 		2292A546277C3DDA00F192D1 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		2292A547277C3DDA00F192D1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		2292A54E27802DAE00F192D1 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image.png; path = "WebPImageExample-old/image.png"; sourceTree = SOURCE_ROOT; };
-		2292A54F27802DAE00F192D1 /* image.webp */ = {isa = PBXFileReference; lastKnownFileType = file; name = image.webp; path = "WebPImageExample-old/image.webp"; sourceTree = SOURCE_ROOT; };
 		2292A55327802DD800F192D1 /* WebPImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPImage.h; sourceTree = "<group>"; };
 		2292A55427802DD800F192D1 /* WebPImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPImage.m; sourceTree = "<group>"; };
-		2292A55B2780ACE800F192D1 /* WebP.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = WebP.xcframework; sourceTree = "<group>"; };
+		2292A5602780B42200F192D1 /* image.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = image.webp; sourceTree = "<group>"; };
+		2292A5612780B42200F192D1 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
+		2292A5642780B4FE00F192D1 /* WebP.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = WebP.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2292A55C2780ACE800F192D1 /* WebP.xcframework in Frameworks */,
+				2292A5652780B4FE00F192D1 /* WebP.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,9 +86,9 @@
 		2292A505277AE60700F192D1 = {
 			isa = PBXGroup;
 			children = (
+				2292A5642780B4FE00F192D1 /* WebP.xcframework */,
 				2292A55227802DD800F192D1 /* WebPImage */,
 				2292A510277AE60700F192D1 /* WebPImageExample */,
-				2292A55B2780ACE800F192D1 /* WebP.xcframework */,
 				2292A52C277AE60700F192D1 /* WebPImageTests */,
 				2292A50F277AE60700F192D1 /* Products */,
 			);
@@ -146,8 +146,8 @@
 		2292A54B277C3E0000F192D1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2292A54E27802DAE00F192D1 /* image.png */,
-				2292A54F27802DAE00F192D1 /* image.webp */,
+				2292A5612780B42200F192D1 /* image.png */,
+				2292A5602780B42200F192D1 /* image.webp */,
 				2292A51D277AE60700F192D1 /* Assets.xcassets */,
 				2292A51F277AE60700F192D1 /* LaunchScreen.storyboard */,
 			);
@@ -245,9 +245,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2292A521277AE60700F192D1 /* LaunchScreen.storyboard in Resources */,
-				2292A55127802DAE00F192D1 /* image.webp in Resources */,
+				2292A5622780B42200F192D1 /* image.webp in Resources */,
 				2292A51E277AE60700F192D1 /* Assets.xcassets in Resources */,
-				2292A55027802DAE00F192D1 /* image.png in Resources */,
+				2292A5632780B42200F192D1 /* image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
