@@ -1,6 +1,6 @@
-// WebPImageSerialization.m
+// WebPImage.m
 //
-// Copyright (c) 2014 – 2020 Mattt (http://mat.tt/)
+// Copyright (c) 2014 – 2022 Mattt (http://mat.tt/) & Tim Oliver (http://tim.dev)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "WebPImageSerialization.h"
+#import "WebPImage.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Weverything"
+#if __has_include(<WebP/encode.h>) && __has_include(<WebP/decode.h>)
 #import <WebP/encode.h>
 #import <WebP/decode.h>
+#else
+@import WebP;
+#endif
 #pragma clang diagnostic pop
 
 NS_ASSUME_NONNULL_BEGIN
@@ -227,7 +231,7 @@ __attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIIma
     }
 }
 
-@implementation WebPImageSerialization
+@implementation WebPImage
 
 + (UIImage * _Nullable)imageWithData:(NSData *)data
                                error:(NSError * __autoreleasing *)error
@@ -285,10 +289,10 @@ static inline void webp_swizzleSelector(Class class, SEL originalSelector, SEL s
     }
 }
 
-@interface UIImage (_WebPImageSerialization)
+@interface UIImage (_WebPImage)
 @end
 
-@implementation UIImage (_WebPImageSerialization)
+@implementation UIImage (_WebPImage)
 
 + (void)load {
     static dispatch_once_t onceToken;
@@ -330,7 +334,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (path) {
         NSData *data = [NSData dataWithContentsOfFile:(NSString * _Nonnull)path];
         if (WebPDataIsValid(data)) {
-            return [WebPImageSerialization imageWithData:data error:nil];
+            return [WebPImage imageWithData:data error:nil];
         }
     }
     
