@@ -58,21 +58,21 @@ static inline BOOL WebPDataIsValid(NSData *data) {
 static NSString * WebPLocalizedDescriptionForVP8StatusCode(VP8StatusCode status) {
     switch (status) {
         case VP8_STATUS_OUT_OF_MEMORY:
-            return NSLocalizedStringFromTable(@"VP8 out of memory", @"WebPImageSerialization", nil);
+            return NSLocalizedStringFromTable(@"VP8 out of memory", @"WebPImage", nil);
         case VP8_STATUS_INVALID_PARAM:
-            return NSLocalizedStringFromTable(@"VP8 invalid parameter", @"WebPImageSerialization", nil);
+            return NSLocalizedStringFromTable(@"VP8 invalid parameter", @"WebPImage", nil);
         case VP8_STATUS_BITSTREAM_ERROR:
-            return NSLocalizedStringFromTable(@"VP8 bitstream error", @"WebPImageSerialization", nil);
+            return NSLocalizedStringFromTable(@"VP8 bitstream error", @"WebPImage", nil);
         case VP8_STATUS_UNSUPPORTED_FEATURE:
-            return NSLocalizedStringFromTable(@"VP8 unsupported feature", @"WebPImageSerialization", nil);
+            return NSLocalizedStringFromTable(@"VP8 unsupported feature", @"WebPImage", nil);
         case VP8_STATUS_SUSPENDED:
-            return NSLocalizedStringFromTable(@"VP8 suspended", @"WebPImageSerialization", nil);
+            return NSLocalizedStringFromTable(@"VP8 suspended", @"WebPImage", nil);
         case VP8_STATUS_USER_ABORT:
-            return NSLocalizedStringFromTable(@"VP8 user Abort", @"WebPImageSerialization", nil);
+            return NSLocalizedStringFromTable(@"VP8 user Abort", @"WebPImage", nil);
         case VP8_STATUS_NOT_ENOUGH_DATA:
-            return NSLocalizedStringFromTable(@"VP8 not enough data", @"WebPImageSerialization", nil);
+            return NSLocalizedStringFromTable(@"VP8 not enough data", @"WebPImage", nil);
         case VP8_STATUS_OK:
-            return NSLocalizedStringFromTable(@"VP8 unknown error", @"WebPImageSerialization", nil);
+            return NSLocalizedStringFromTable(@"VP8 unknown error", @"WebPImage", nil);
     }
 }
 
@@ -97,21 +97,24 @@ __attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *da
         WebPDecoderConfig config;
         int width = 0, height = 0;
 
-        if(!WebPGetInfo([data bytes], [data length], &width, &height)) {
+        WebPBitstreamFeatures features;
+        if(WebPGetFeatures([data bytes], [data length], &features) != VP8_STATUS_OK) {
             userInfo = @{
-                         NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP header formatting error", @"WebPImageSerialization", nil)
+                         NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP header formatting error", @"WebPImage", nil)
                         };
             goto _error;
         }
+        width = features.width;
+        height = features.height;
 
         if(!WebPInitDecoderConfig(&config)) {
             userInfo = @{
-                         NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image failed to initialize structure", @"WebPImageSerialization", nil)
+                         NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image failed to initialize structure", @"WebPImage", nil)
                         };
             goto _error;
         }
 
-        config.output.colorspace = MODE_RGBA;
+        config.output.colorspace = MODE_rgbA;
         config.options.bypass_filtering = true;
         config.options.no_fancy_upsampling = true;
         config.options.use_threads = true;
@@ -140,7 +143,8 @@ __attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *da
         size_t bytesPerRow = 4;
         CGDataProviderRef provider = CGDataProviderCreateWithData(&config, config.output.u.RGBA.rgba, config.output.width * config.output.height * bytesPerRow, WebPFreeImageData);
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault | kCGImageAlphaLast;
+        CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
+        bitmapInfo |= features.has_alpha ? kCGImageAlphaPremultipliedLast : kCGImageAlphaNoneSkipLast;
         CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
         BOOL shouldInterpolate = YES;
 
@@ -180,17 +184,17 @@ __attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIIma
         WebPPicture picture;
 
         if (!WebPConfigPreset(&config, (WebPPreset)preset, quality)) {
-            userInfo = @{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image configuration preset initialization failed.", @"WebPImageSerialization", nil)};
+            userInfo = @{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image configuration preset initialization failed.", @"WebPImage", nil)};
             goto _error;
         }
 
         if (!WebPValidateConfig(&config)) {
-            userInfo = @{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image invalid configuration.", @"WebPImageSerialization", nil)};
+            userInfo = @{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image invalid configuration.", @"WebPImage", nil)};
             goto _error;
         }
 
         if (!WebPPictureInit(&picture)) {
-            userInfo = @{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image failed to initialize structure.", @"WebPImageSerialization", nil)};
+            userInfo = @{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image failed to initialize structure.", @"WebPImage", nil)};
             goto _error;
         }
 
