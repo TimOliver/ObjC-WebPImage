@@ -16,29 +16,6 @@ Since Mattt has officially archived that repository, this one has been created a
 * Converts decompressed `UIImage` back to WebP with a variety of quality presets available.
 * Provides `UIImage` method swizzling to seamlessly include WebP decoding in Apple's official APIs.
 
-# Installation
-
-<details>
-  <summary><strong>CocoaPods</strong></summary>
-    
-Add the following to your `Podfile`:
-
-```
-pod 'ObjC-WebPImage'
-```
-      
-</details>
-
-<details>
-  <summary><strong>Manual Installation</strong></summary>
-    
-    1. Download this repository.
-    2. Copy the `WebPImage` folder to your Xcode project.
-    3. Download the precompiled `WebP.xcframework` binary from [the Cocoa-WebP repo](https://github.com/TimOliver/WebP-Cocoa) for iOS.
-    4. Drag that framework into your Xcode project.
-      
-</details>
-
 # Usage
 
 `WebPImage` provides two major sets of functionality: decoding WebP data from a file into a `UIImage`, 
@@ -78,6 +55,29 @@ post_install do |r|
   end
 end
 ```
+
+# Installation
+
+<details>
+  <summary><strong>CocoaPods</strong></summary>
+    
+Add the following to your `Podfile`:
+
+```
+pod 'ObjC-WebPImage'
+```
+      
+</details>
+
+<details>
+  <summary><strong>Manual Installation</strong></summary>
+    
+    1. Download this repository.
+    2. Copy the `WebPImage` folder to your Xcode project.
+    3. Download the precompiled `WebP.xcframework` binary from [the Cocoa-WebP repo](https://github.com/TimOliver/WebP-Cocoa) for iOS.
+    4. Drag that framework into your Xcode project.
+      
+</details>
 
 ## Credits
 
