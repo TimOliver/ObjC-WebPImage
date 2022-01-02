@@ -79,22 +79,31 @@ static NSString * WebPLocalizedDescriptionForVP8StatusCode(VP8StatusCode status)
     }
 }
 
-static void WebPFreeImageData(void *info, const void *data, size_t size) {
+static void WebPFreeImageData(void *info, const void *data, size_t size)
+{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wcast-qual"
     free((void *)data);
 #pragma clang diagnostic pop
 }
 
-__attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *data) {
+__attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *data)
+{
     return UIImageWithWebPData(data, 1.0, nil);
 }
 
-__attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *data, CGFloat scale, NSError * __autoreleasing *error) {
+__attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *data,
+                                                                      CGFloat scale,
+                                                                      NSError * __autoreleasing *error)
+{
     return UIImageWithWebPData(data, scale, CGSizeZero, error);
 }
     
-__attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *data, CGFloat scale, CGSize fittingSize, NSError * __autoreleasing *error) {
+__attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *data,
+                                                                      CGFloat scale,
+                                                                      CGSize fittingSize,
+                                                                      NSError * __autoreleasing *error)
+{
     NSDictionary *userInfo = nil;
     {
         WebPDecoderConfig config;
@@ -112,7 +121,8 @@ __attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *da
 
         if (!WebPInitDecoderConfig(&config)) {
             userInfo = @{
-                         NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image failed to initialize structure", @"WebPImage", nil)
+                         NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image failed to "
+                                                                                "initialize structure", @"WebPImage", nil)
                         };
             goto _error;
         }
@@ -144,15 +154,26 @@ __attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *da
         size_t bitsPerComponent = 8;
         size_t bitsPerPixel = 32;
         size_t bytesPerRow = 4;
-        CGDataProviderRef provider = CGDataProviderCreateWithData(&config, config.output.u.RGBA.rgba, config.output.width * config.output.height * bytesPerRow, WebPFreeImageData);
+        CGDataProviderRef provider = CGDataProviderCreateWithData(&config,
+                                                                  config.output.u.RGBA.rgba,
+                                                                  config.output.width * config.output.height * bytesPerRow,
+                                                                  WebPFreeImageData);
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
         bitmapInfo |= features.has_alpha ? kCGImageAlphaPremultipliedLast : kCGImageAlphaNoneSkipLast;
         CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
         BOOL shouldInterpolate = YES;
 
-        CGImageRef imageRef = CGImageCreate((size_t)config.output.width, (size_t)config.output.height, bitsPerComponent, bitsPerPixel, bytesPerRow * config.output.width, colorSpace, bitmapInfo, provider, NULL, shouldInterpolate, renderingIntent);
-
+        CGImageRef imageRef = CGImageCreate((size_t)config.output.width,
+                                            (size_t)config.output.height,
+                                            bitsPerComponent,
+                                            bitsPerPixel,
+                                            bytesPerRow * config.output.width,
+                                            colorSpace, bitmapInfo,
+                                            provider,
+                                            NULL,
+                                            shouldInterpolate,
+                                            renderingIntent);
         UIImage *image = [UIImage imageWithCGImage:imageRef scale:scale orientation:UIImageOrientationUp];
 
         CGImageRelease(imageRef);
@@ -170,11 +191,16 @@ __attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *da
     }
 }
 
-extern __attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIImage *image) {
+extern __attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIImage *image)
+{
     return UIImageWebPRepresentation(image, (WebPImagePreset)WebPImageDefaultPreset, 75.0, nil);
 }
 
-__attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIImage *image, WebPImagePreset preset, CGFloat quality, NSError * __autoreleasing *error) {
+__attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIImage *image,
+                                                                           WebPImagePreset preset,
+                                                                           CGFloat quality,
+                                                                           NSError * __autoreleasing *error)
+{
     NSCParameterAssert(quality >= 0.0 && quality <= 100.0);
 
     CGImageRef imageRef = image.CGImage;
@@ -187,7 +213,8 @@ __attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIIma
         WebPPicture picture;
 
         if (!WebPConfigPreset(&config, (WebPPreset)preset, quality)) {
-            userInfo = @{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image configuration preset initialization failed.", @"WebPImage", nil)};
+            userInfo = @{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image configuration "
+                                                                                 "preset initialization failed.", @"WebPImage", nil)};
             goto _error;
         }
 
@@ -243,6 +270,10 @@ __attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIIma
 + (UIImage * _Nullable)imageWithData:(NSData *)data
                                error:(NSError * __autoreleasing *)error
 {
+    // No longer needed on iOS 14 where WebP is natively supported in UIImage.
+    if (@available(iOS 14.0, *)) {
+        return [UIImage imageWithData:data scale:1.0f];
+    }
     return [self imageWithData:data scale:1.0 error:error];
 }
 
@@ -250,6 +281,10 @@ __attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIIma
                                scale:(CGFloat)scale
                                error:(NSError * __autoreleasing *)error
 {
+    // No longer needed on iOS 14 where WebP is natively supported in UIImage.
+    if (@available(iOS 14.0, *)) {
+        return [UIImage imageWithData:data scale:scale];
+    }
     return UIImageWithWebPData(data, scale, error);
 }
 
@@ -258,6 +293,8 @@ __attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIIma
                          fittingSize:(CGSize)fittingSize
                                error:(NSError * __autoreleasing *)error
 {
+    // iOS 14's native support of WebP doesn't provide custom scaling, so default
+    // back to WebPImage's implementation here.
     return UIImageWithWebPData(data, scale, fittingSize, error);
 }
 
@@ -302,6 +339,9 @@ static inline void webp_swizzleSelector(Class class, SEL originalSelector, SEL s
 @implementation UIImage (_WebPImage)
 
 + (void)load {
+    // No longer needed on iOS 14 where WebP is natively supported in UIImage.
+    if (@available(iOS 14.0, *)) { return; }
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         @autoreleasepool {
