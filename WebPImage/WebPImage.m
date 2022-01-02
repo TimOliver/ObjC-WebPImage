@@ -101,7 +101,7 @@ __attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *da
         int width = 0, height = 0;
 
         WebPBitstreamFeatures features;
-        if(WebPGetFeatures([data bytes], [data length], &features) != VP8_STATUS_OK) {
+        if (WebPGetFeatures([data bytes], [data length], &features) != VP8_STATUS_OK) {
             userInfo = @{
                          NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP header formatting error", @"WebPImage", nil)
                         };
@@ -110,7 +110,7 @@ __attribute__((overloadable)) UIImage * _Nullable UIImageWithWebPData(NSData *da
         width = features.width;
         height = features.height;
 
-        if(!WebPInitDecoderConfig(&config)) {
+        if (!WebPInitDecoderConfig(&config)) {
             userInfo = @{
                          NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"WebP image failed to initialize structure", @"WebPImage", nil)
                         };
