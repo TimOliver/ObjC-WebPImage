@@ -243,6 +243,10 @@ __attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIIma
 + (UIImage * _Nullable)imageWithData:(NSData *)data
                                error:(NSError * __autoreleasing *)error
 {
+    // No longer needed on iOS 14 where WebP is natively supported in UIImage.
+    if (@available(iOS 14.0, *)) {
+        return [UIImage imageWithData:data scale:1.0f];
+    }
     return [self imageWithData:data scale:1.0 error:error];
 }
 
@@ -250,6 +254,10 @@ __attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIIma
                                scale:(CGFloat)scale
                                error:(NSError * __autoreleasing *)error
 {
+    // No longer needed on iOS 14 where WebP is natively supported in UIImage.
+    if (@available(iOS 14.0, *)) {
+        return [UIImage imageWithData:data scale:scale];
+    }
     return UIImageWithWebPData(data, scale, error);
 }
 
@@ -258,6 +266,8 @@ __attribute__((overloadable)) NSData * _Nullable UIImageWebPRepresentation(UIIma
                          fittingSize:(CGSize)fittingSize
                                error:(NSError * __autoreleasing *)error
 {
+    // iOS 14's native support of WebP doesn't provide custom scaling, so default
+    // back to WebPImage's implementation here.
     return UIImageWithWebPData(data, scale, fittingSize, error);
 }
 
@@ -302,6 +312,9 @@ static inline void webp_swizzleSelector(Class class, SEL originalSelector, SEL s
 @implementation UIImage (_WebPImage)
 
 + (void)load {
+    // No longer needed on iOS 14 where WebP is natively supported in UIImage.
+    if (@available(iOS 14.0, *)) { return; }
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         @autoreleasepool {
