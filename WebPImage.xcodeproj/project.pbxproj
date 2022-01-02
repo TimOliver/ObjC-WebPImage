@@ -44,6 +44,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2279238E278167EA00E44078 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
+		22792390278167F200E44078 /* ObjC-WebPImage.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ObjC-WebPImage.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		2292A50E277AE60700F192D1 /* WebPImage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebPImage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2292A511277AE60700F192D1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2292A512277AE60700F192D1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -86,10 +88,12 @@
 		2292A505277AE60700F192D1 = {
 			isa = PBXGroup;
 			children = (
-				2292A5642780B4FE00F192D1 /* WebP.xcframework */,
 				2292A55227802DD800F192D1 /* WebPImage */,
 				2292A510277AE60700F192D1 /* WebPImageExample */,
 				2292A52C277AE60700F192D1 /* WebPImageTests */,
+				2279238E278167EA00E44078 /* README.md */,
+				22792390278167F200E44078 /* ObjC-WebPImage.podspec */,
+				2292A5642780B4FE00F192D1 /* WebP.xcframework */,
 				2292A50F277AE60700F192D1 /* Products */,
 			);
 			sourceTree = "<group>";
