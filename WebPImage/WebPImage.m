@@ -27,6 +27,9 @@
 #if __has_include(<WebP/encode.h>) && __has_include(<WebP/decode.h>)
 #import <WebP/encode.h>
 #import <WebP/decode.h>
+#elif __has_include(<libwebp/encode.h>) && __has_include(<libwebp/decode.h>)
+#import <libwebp/encode.h>
+#import <libwebp/decode.h>
 #else
 @import WebP;
 #endif
